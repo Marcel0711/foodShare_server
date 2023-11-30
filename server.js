@@ -11,7 +11,9 @@ const app = express()
 
 //middleware
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
 
 //routes
 app.use('/users', userRouter)

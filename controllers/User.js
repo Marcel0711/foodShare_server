@@ -24,8 +24,13 @@ const loginUser = async (req,res) => {
 }
 
 //register user
-const registerUser = async (req,res) => {
-    const {username, password, avatar } = req.body
+const registerUser = async (req, res) => {
+    const {username, password } = req.body
+    let avatar = req.file?.path
+
+    if(avatar == undefined){
+        avatar = `https://res.cloudinary.com/dal6qgtfh/image/upload/f_auto,q_auto/v1/FoodShare/wtttoazkg7iv5aeji7hr`
+    }
 
     try{
         const user = await User.register(username,password,avatar)
@@ -38,7 +43,7 @@ const registerUser = async (req,res) => {
 }
 
 //get user
-const getUser = async (req,res) => {
+const getUser = async (req, res) => {
     const { username } = req.params
 
     try{

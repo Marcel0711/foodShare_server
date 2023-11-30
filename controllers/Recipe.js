@@ -60,8 +60,8 @@ const getUserRecipes = async (req,res) => {
 
 //add recipe
 const addRecipe = async(req,res) => {
-    const { title, description, steps, ingredients, author_id, category, image } = req.body
-    
+    const { title, description, steps, ingredients, author_id, category } = req.body
+
     if(!title || !description || !steps || !ingredients || !author_id || !category){
         return res.status(400).json({error: 'all fields required'})
     }
@@ -70,16 +70,22 @@ const addRecipe = async(req,res) => {
     if(!user){
         return res.status(404).json({error: 'no such user'})
     }
+    
+    const image = req.file?.path
 
+    if(image == undefined){
+        image  = `https://res.cloudinary.com/dal6qgtfh/image/upload/v1701358542/FoodShare/up5hjrbuwqjxo59t1o1d.jpg`
+    }
+    
     try{
         const newRecipe = await Recipe.create({
             title,
             description,
-            steps,
-            ingredients,
+            steps: JSON.parse(steps),
+            ingredients: JSON.parse(ingredients),
             author: author_id,
             category,
-            image: image || "",
+            image: image,
         })
         res.status(200).json(newRecipe)
     }catch(error){
