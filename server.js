@@ -12,7 +12,7 @@ const app = express()
 //middleware
 app.use(bodyParser.json())
 app.use(cors({
-    origin: 'https://foodshare-0311.netlify.app/'
+    origin: 'https://foodshare-0311.netlify.app'
 }))
 
 //routes
